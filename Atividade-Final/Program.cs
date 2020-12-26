@@ -33,10 +33,31 @@ namespace Atividade_Final
             Console.WriteLine("#########################");
 
             Console.Write("Selecione uma letra: ");
-
         }
 
-       
-
+        static void Menu(string op, Produto[] prod)
+        {
+            switch (op.ToUpper())
+            {
+                case "A":
+                    Console.WriteLine("\nCadastramento de Produto");
+                    Cadastrar(prod);
+                    break;
+                case "B":
+                    Console.WriteLine("\nAtualização de Produto");
+                    Atualizar(prod);
+                    break;
+                case "C":
+                    MediaProduto(prod);
+                    break;
+                case "D":
+                    Console.WriteLine("\nListagem dos Produtos");
+                    ListagemProdutos(prod);
+                    break;
+                default:
+                    Console.Write("\nOpção inválida!");
+                    break;
+            }
+        }
     }
 }
