@@ -16,7 +16,7 @@ namespace Atividade_Final
             {
                 Opcoes();
                 escolha = Console.ReadLine();
-
+                Menu(escolha, produtos);
                 Console.Write("\nsair digite 0 / 1 para continuar: ");
                 sair = Convert.ToInt32(Console.ReadLine());
             }
@@ -131,6 +131,50 @@ namespace Atividade_Final
                 }
 
             }
+        }
+        static void Cadastrar(Produto[] prod)
+        {
+
+            var vazio = VetorPreenchido(prod);
+            if (vazio)
+            {
+                for (int i = 0; i < prod.Length; i++)
+                {
+                    if (prod[i] == null)
+                    {
+                        prod[i] = new Produto();
+
+                        Console.Write("\nInforme o Codigo do produto: ");
+                        prod[i].Codigo = Convert.ToInt32(Console.ReadLine());
+
+                        Console.Write("\nInforme o Descricao do produto: ");
+                        prod[i].Descricao = Console.ReadLine();
+
+                        Console.Write("\nInforme o Preco do produto: ");
+                        prod[i].Preco = Convert.ToDouble(Console.ReadLine());
+
+                        Console.Write("\nInforme o Custo do produto: ");
+                        prod[i].Custo = Convert.ToDouble(Console.ReadLine());
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nImpossível cadastar mais produtos!");
+            }
+        }
+        static Boolean VetorPreenchido(Produto[] prod)
+        {
+            var vazio = false;
+            for (int i = 0; i < prod.Length; i++)
+            {
+                if (prod[i] == null)
+                {
+                    vazio = true;
+                }
+            }
+            return vazio;
         }
     }
 }
