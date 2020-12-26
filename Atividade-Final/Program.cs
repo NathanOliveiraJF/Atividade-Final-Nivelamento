@@ -59,5 +59,44 @@ namespace Atividade_Final
                     break;
             }
         }
+
+        static void Atualizar(Produto[] prod)
+        {
+            Console.Write("Informe o código do produto: ");
+            var codigo = Convert.ToInt32(Console.ReadLine());
+            var percentual = 0.0;
+
+            try
+            {
+                var s = prod.Where(x => x.Codigo == codigo).First();
+                Console.WriteLine("Deseja Desconto ou um Acréscimo no preço: ");
+                Console.WriteLine("Digite [ D ] para desconto ou [ A ] para acréscimo ");
+                var resp = Console.ReadLine();
+                Console.WriteLine("Informe o percentual: ");
+                percentual = Convert.ToInt32(Console.ReadLine());
+                percentual /= 100;
+
+                if (resp.ToLower() == "desconto" || resp.ToLower() == "d")
+                {
+                    s.Preco -= (percentual * s.Preco);
+                }
+                else if (resp.ToLower() == "acrescimo" || resp.ToLower() == "acréscimo" || resp.ToLower() == "a")
+                {
+
+                    s.Preco += (percentual * s.Preco);
+                }
+                else
+                {
+                    Console.WriteLine("opção inválida!");
+                }
+
+
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Código do produto inexistente");
+            }
+
+        }
     }
 }
