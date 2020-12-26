@@ -48,7 +48,7 @@ namespace Atividade_Final
                     Atualizar(prod);
                     break;
                 case "C":
-                    MediaProduto(prod);
+                    Console.WriteLine($"Média: {prod.Media()}");
                     break;
                 case "D":
                     Console.WriteLine("\nListagem dos Produtos");
@@ -64,8 +64,7 @@ namespace Atividade_Final
         {
             Console.Write("Informe o código do produto: ");
             var codigo = Convert.ToInt32(Console.ReadLine());
-            var percentual = 0.0;
-
+            
             try
             {
                 var s = prod.Where(x => x.Codigo == codigo).First();
@@ -73,17 +72,19 @@ namespace Atividade_Final
                 Console.WriteLine("Digite [ D ] para desconto ou [ A ] para acréscimo ");
                 var resp = Console.ReadLine();
                 Console.WriteLine("Informe o percentual: ");
-                percentual = Convert.ToInt32(Console.ReadLine());
-                percentual /= 100;
+                var percentual = Convert.ToInt32(Console.ReadLine());
+                
 
                 if (resp.ToLower() == "desconto" || resp.ToLower() == "d")
                 {
-                    s.Preco -= (percentual * s.Preco);
+                    //s.Preco -= (percentual * s.Preco);
+                    s.Desconto(percentual);
                 }
                 else if (resp.ToLower() == "acrescimo" || resp.ToLower() == "acréscimo" || resp.ToLower() == "a")
                 {
 
-                    s.Preco += (percentual * s.Preco);
+                    //s.Preco += (percentual * s.Preco);
+                    s.Acrescimo(percentual);
                 }
                 else
                 {
@@ -124,10 +125,9 @@ namespace Atividade_Final
                     var propsInfo = item.GetType().GetProperties();
                     foreach (var info in propsInfo)
                     {
-                        Console.Write($"{info.Name}:  {info.GetValue(item)} ");
+                        Console.Write($" {info.Name}: {info.GetValue(item)} ");
                     }
-
-                    Console.WriteLine();
+                    Console.Write($" Lucro: {item.Lucro()}\n");
                 }
 
             }
