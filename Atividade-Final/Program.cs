@@ -114,5 +114,23 @@ namespace Atividade_Final
 
             Console.WriteLine($"Média dos Produtos: {total / count}");
         }
+
+        static void ListagemProdutos(Produto[] prod)
+        {
+            foreach (var item in prod)
+            {
+                if (item != null)
+                {
+                    var propsInfo = item.GetType().GetProperties();
+                    foreach (var info in propsInfo)
+                    {
+                        Console.Write($"{info.Name}:  {info.GetValue(item)} ");
+                    }
+
+                    Console.WriteLine();
+                }
+
+            }
+        }
     }
 }
