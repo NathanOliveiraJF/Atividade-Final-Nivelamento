@@ -8,6 +8,7 @@ namespace Atividade_Final
         static void Main(string[] args)
         {
             var produtos = new Produto[100];
+
             var sair = 1;
             string escolha;
 
@@ -17,7 +18,7 @@ namespace Atividade_Final
                 Opcoes();
                 escolha = Console.ReadLine();
                 Menu(escolha, produtos);
-                Console.Write("\nsair digite 0 / 1 para continuar: ");
+                Console.Write("\ndigite [ 0 ] para sair ou [ 1 ] para voltar ao menu: ");
                 sair = Convert.ToInt32(Console.ReadLine());
             }
 
@@ -26,6 +27,7 @@ namespace Atividade_Final
         static void Opcoes()
         {
             Console.WriteLine("\n#########################");
+            Console.WriteLine("Menu");
             Console.WriteLine("[ A ] Cadastrar Produto");
             Console.WriteLine("[ B ] Atualizar o preço de um produto");
             Console.WriteLine("[ C ] Imprimir o preço médio dos produtos");
@@ -48,7 +50,7 @@ namespace Atividade_Final
                     Atualizar(prod);
                     break;
                 case "C":
-                    Console.WriteLine($"Média: {prod.Media()}");
+                    Console.WriteLine($"\n Média de preço dos Produtos {prod.Media()}");
                     break;
                 case "D":
                     Console.WriteLine("\nListagem dos Produtos");
@@ -62,66 +64,61 @@ namespace Atividade_Final
 
         static void Atualizar(Produto[] prod)
         {
-            Console.Write("Informe o código do produto: ");
-            var codigo = Convert.ToInt32(Console.ReadLine());
-            
-            try
+
+            if (prod[0] != null)
             {
-                var s = prod.Where(x => x.Codigo == codigo).First();
-                Console.WriteLine("Deseja Desconto ou um Acréscimo no preço: ");
-                Console.WriteLine("Digite [ D ] para desconto ou [ A ] para acréscimo ");
-                var resp = Console.ReadLine();
-                Console.WriteLine("Informe o percentual: ");
-                var percentual = Convert.ToInt32(Console.ReadLine());
-                
+                Console.Write("Informe o código do produto: ");
+                var codigo = Convert.ToInt32(Console.ReadLine());
+                var percentual = 0.0;
 
-                if (resp.ToLower() == "desconto" || resp.ToLower() == "d")
+                var vetorPreechido = prod.Where(x => x != null);
+                var produto = vetorPreechido.FirstOrDefault(x => x.Codigo == codigo);
+               
+                if (produto != null)
                 {
-                    //s.Preco -= (percentual * s.Preco);
-                    s.Desconto(percentual);
-                }
-                else if (resp.ToLower() == "acrescimo" || resp.ToLower() == "acréscimo" || resp.ToLower() == "a")
-                {
+                    Console.WriteLine("Deseja Desconto ou um Acréscimo no preço: ");
+                    Console.Write("Digite [ D ] para desconto ou [ A ] para acréscimo:  ");
+                    var resp = Console.ReadLine();
 
-                    //s.Preco += (percentual * s.Preco);
-                    s.Acrescimo(percentual);
+                    if (resp.ToLower() == "desconto" || resp.ToLower() == "d")
+                    {
+                        Console.Write("\nInforme o percentual de Desconto: ");
+                        percentual = Convert.ToInt32(Console.ReadLine());
+                        produto.Desconto(percentual);
+                        Console.WriteLine("\nProduto Atualizado com Sucesso ");
+
+                    }
+                    else if (resp.ToLower() == "acrescimo" || resp.ToLower() == "acréscimo" || resp.ToLower() == "a")
+                    {
+                        Console.Write("\nInforme o percentual de Acréscimo: ");
+                        percentual = Convert.ToInt32(Console.ReadLine());
+                        produto.Acrescimo(percentual);
+                        Console.WriteLine("\nProduto Atualizado com Sucesso ");
+                    }
+                    else
+                        Console.WriteLine("\nopção inválida!");
+
+
                 }
                 else
                 {
-                    Console.WriteLine("opção inválida!");
+                    Console.WriteLine("Código do produto inexistente");
                 }
 
-
             }
-            catch (Exception)
-            {
-                Console.WriteLine("Código do produto inexistente");
-            }
-
+            else
+                Console.WriteLine("Nenhum produto cadastrado!");
         }
 
-        static void MediaProduto(Produto[] prod)
-        {
-            var total = 0.0;
-            double count = 0.0;
-            foreach (var item in prod)
-            {
-                if (item != null)
-                {
-                    total += item.Preco;
-                    count++;
-                }
-            }
-
-            Console.WriteLine($"Média dos Produtos: {total / count}");
-        }
 
         static void ListagemProdutos(Produto[] prod)
         {
+            var semItens = true;           
             foreach (var item in prod)
             {
                 if (item != null)
                 {
+                    semItens = false;
                     var propsInfo = item.GetType().GetProperties();
                     foreach (var info in propsInfo)
                     {
@@ -129,52 +126,70 @@ namespace Atividade_Final
                     }
                     Console.Write($" Lucro: {item.Lucro()}\n");
                 }
-
             }
+            if (semItens)
+                Console.WriteLine("nenhum item cadastrado!");
         }
+
         static void Cadastrar(Produto[] prod)
         {
-
-            var vazio = VetorPreenchido(prod);
+            var vazio = prod.VetorPreenchido();
             if (vazio)
             {
-                for (int i = 0; i < prod.Length; i++)
+                Console.Write("\nInforme o Codigo do produto: ");
+                var codigo = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("\nInforme a Descrição do produto: ");
+                var descricao = Console.ReadLine().ToLower();
+
+                Console.Write("\nInforme o Preco do produto: ");
+                var preco = Convert.ToDouble(Console.ReadLine());
+
+                Console.Write("\nInforme o Custo do produto: ");
+                var custo = Convert.ToDouble(Console.ReadLine());
+
+                var jaExisteProduto = VerificaProdutoExistente(prod, codigo, descricao);
+
+
+                if (!jaExisteProduto)
                 {
-                    if (prod[i] == null)
+                    for (int i = 0; i < prod.Length; i++)
                     {
-                        prod[i] = new Produto();
+                        if (prod[i] == null)
+                        {
+                            prod[i] = new Produto();
 
-                        Console.Write("\nInforme o Codigo do produto: ");
-                        prod[i].Codigo = Convert.ToInt32(Console.ReadLine());
 
-                        Console.Write("\nInforme o Descricao do produto: ");
-                        prod[i].Descricao = Console.ReadLine();
+                            prod[i].Codigo = codigo;
+                            prod[i].Descricao = descricao;
+                            prod[i].Preco = preco;
+                            prod[i].Custo = custo;
 
-                        Console.Write("\nInforme o Preco do produto: ");
-                        prod[i].Preco = Convert.ToDouble(Console.ReadLine());
-
-                        Console.Write("\nInforme o Custo do produto: ");
-                        prod[i].Custo = Convert.ToDouble(Console.ReadLine());
-                        break;
+                            Console.WriteLine("Produto Cadastrado com sucesso!");
+                            break;
+                        }
                     }
                 }
+                else
+                    Console.Write("\nProduto já cadastrado no sistema! ");
             }
             else
-            {
                 Console.WriteLine("\nImpossível cadastar mais produtos!");
-            }
         }
-        static Boolean VetorPreenchido(Produto[] prod)
+
+
+        static bool VerificaProdutoExistente(Produto[] prod, int codigo = 0, string desc = "")
         {
-            var vazio = false;
-            for (int i = 0; i < prod.Length; i++)
+            var jaExisteProduto = false;
+            foreach (var item in prod)
             {
-                if (prod[i] == null)
-                {
-                    vazio = true;
-                }
+                if (item != null)
+                    if (item.Codigo == codigo || item.Descricao == desc)
+                        return jaExisteProduto = true;
             }
-            return vazio;
+
+            return jaExisteProduto;
         }
+
     }
 }
