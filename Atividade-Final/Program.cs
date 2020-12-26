@@ -98,5 +98,21 @@ namespace Atividade_Final
             }
 
         }
+
+        static void MediaProduto(Produto[] prod)
+        {
+            var total = 0.0;
+            double count = 0.0;
+            foreach (var item in prod)
+            {
+                if (item != null)
+                {
+                    total += item.Preco;
+                    count++;
+                }
+            }
+
+            Console.WriteLine($"Média dos Produtos: {total / count}");
+        }
     }
 }
