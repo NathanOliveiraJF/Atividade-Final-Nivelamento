@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Atividade_Final
 {
@@ -13,7 +14,7 @@ namespace Atividade_Final
 
         public static void Desconto(this Produto prod, double percentual)
         {
-            percentual /= 100; 
+            percentual /= 100;
             prod.Preco -= (percentual * prod.Preco);
         }
 
@@ -26,16 +27,15 @@ namespace Atividade_Final
         public static double Media(this Produto[] prod)
         {
             var total = 0.0;
-            double count = 0.0;
-            foreach (var item in prod)
-            {
-                if (item != null)
-                {
-                    total += item.Preco;
-                    count++;
-                }
-            }
-            return total / count;
+         
+            var vetorPreenchido = prod.Where(x => x != null).ToArray();
+
+            var prices = vetorPreenchido.Select(x => x.Preco).ToArray();
+
+            total = prices.Sum();
+            return total / prices.Length;
+
+            
         }
     }
 }

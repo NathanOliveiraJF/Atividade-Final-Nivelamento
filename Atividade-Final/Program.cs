@@ -64,11 +64,12 @@ namespace Atividade_Final
 
         static void Atualizar(Produto[] prod)
         {
-            Console.WriteLine("\nLista de Produtos para ser Atualizado");
-            ListagemProdutos(prod);
-
+            
             if (prod[0] != null)
             {
+                Console.WriteLine("\nLista de Produtos para ser Atualizado");
+                ListagemProdutos(prod);
+
                 Console.Write("\nInforme o código do produto: ");
                 var codigo = Convert.ToInt32(Console.ReadLine());
                 var percentual = 0.0;
@@ -130,7 +131,7 @@ namespace Atividade_Final
                 }
             }
             else
-                Console.WriteLine("nenhum item cadastrado!");
+                Console.WriteLine("Nenhum produto cadastrado!");
 
         }
         static void Cadastrar(Produto[] prod)
