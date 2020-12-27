@@ -7,7 +7,7 @@ namespace Atividade_Final
     {
         static void Main(string[] args)
         {
-            var produtos = new Produto[100];
+            var produtos = new Produto[3];
 
             var sair = 1;
             string escolha;
@@ -134,8 +134,9 @@ namespace Atividade_Final
         }
         static void Cadastrar(Produto[] prod)
         {
-            var vazio = prod.VetorPreenchido();
-            if (vazio)
+    
+            var posicoesVazias = prod.Where(x => x != null).ToArray();
+            if (posicoesVazias.Length < prod.Length)
             {
                 Console.Write("\nInforme o Codigo do produto: ");
                 var codigo = Convert.ToInt32(Console.ReadLine());
@@ -148,10 +149,12 @@ namespace Atividade_Final
 
                 Console.Write("\nInforme o Custo do produto: ");
                 var custo = Convert.ToDouble(Console.ReadLine());
+                
+                var posicoesNaoVazias = prod.Where(x => x != null).ToArray();
+                var produtoIgual = posicoesNaoVazias.FirstOrDefault(x => x.Codigo == codigo || x.Descricao == descricao);
 
-                var jaExisteProduto = VerificaProdutoExistente(prod, codigo, descricao);
 
-                if (!jaExisteProduto)
+                if (produtoIgual == null)
                 {
                     for (int i = 0; i < prod.Length; i++)
                     {
