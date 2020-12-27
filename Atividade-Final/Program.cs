@@ -64,10 +64,12 @@ namespace Atividade_Final
 
         static void Atualizar(Produto[] prod)
         {
+            Console.WriteLine("\nLista de Produtos para ser Atualizado");
+            ListagemProdutos(prod);
 
             if (prod[0] != null)
             {
-                Console.Write("Informe o código do produto: ");
+                Console.Write("\nInforme o código do produto: ");
                 var codigo = Convert.ToInt32(Console.ReadLine());
                 var percentual = 0.0;
 
@@ -77,7 +79,7 @@ namespace Atividade_Final
 
                 if (produto != null)
                 {
-                    Console.WriteLine("Deseja Desconto ou um Acréscimo no preço: ");
+                    Console.WriteLine("\nDeseja Desconto ou um Acréscimo no preço: ");
                     Console.Write("Digite [ D ] para desconto ou [ A ] para acréscimo:  ");
                     var resp = Console.ReadLine();
 
@@ -102,9 +104,8 @@ namespace Atividade_Final
 
                 }
                 else
-                {
                     Console.WriteLine("Código do produto inexistente");
-                }
+                
 
             }
             else
@@ -135,8 +136,8 @@ namespace Atividade_Final
         static void Cadastrar(Produto[] prod)
         {
     
-            var posicoesVazias = prod.Where(x => x != null).ToArray();
-            if (posicoesVazias.Length < prod.Length)
+            var posicoesPreenchidas = prod.Where(x => x != null).ToArray();
+            if (posicoesPreenchidas.Length < prod.Length)
             {
                 Console.Write("\nInforme o Codigo do produto: ");
                 var codigo = Convert.ToInt32(Console.ReadLine());
@@ -160,13 +161,13 @@ namespace Atividade_Final
                     {
                         if (prod[i] == null)
                         {
-                            prod[i] = new Produto();
-
-
-                            prod[i].Codigo = codigo;
-                            prod[i].Descricao = descricao;
-                            prod[i].Preco = preco;
-                            prod[i].Custo = custo;
+                            prod[i] = new Produto
+                            {
+                                Codigo = codigo,
+                                Descricao = descricao,
+                                Preco = preco,
+                                Custo = custo
+                            };
 
                             Console.WriteLine("Produto Cadastrado com sucesso!");
                             break;
@@ -179,20 +180,5 @@ namespace Atividade_Final
             else
                 Console.WriteLine("\nImpossível cadastar mais produtos!");
         }
-
-
-        static bool VerificaProdutoExistente(Produto[] prod, int codigo = 0, string desc = "")
-        {
-            var jaExisteProduto = false;
-            foreach (var item in prod)
-            {
-                if (item != null)
-                    if (item.Codigo == codigo || item.Descricao == desc)
-                        return jaExisteProduto = true;
-            }
-
-            return jaExisteProduto;
-        }
-
     }
 }
