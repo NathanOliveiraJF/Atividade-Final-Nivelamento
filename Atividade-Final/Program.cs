@@ -7,7 +7,7 @@ namespace Atividade_Final
     {
         static void Main(string[] args)
         {
-            var produtos = new Produto[3];
+            var produtos = new Produto[100];
 
             var sair = 1;
             string escolha;
