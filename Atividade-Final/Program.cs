@@ -74,6 +74,7 @@ namespace Atividade_Final
                 var vetorPreechido = prod.Where(x => x != null);
                 var produto = vetorPreechido.FirstOrDefault(x => x.Codigo == codigo);
                
+
                 if (produto != null)
                 {
                     Console.WriteLine("Deseja Desconto ou um Acréscimo no preço: ");
@@ -113,12 +114,12 @@ namespace Atividade_Final
 
         static void ListagemProdutos(Produto[] prod)
         {
-            var semItens = true;           
-            foreach (var item in prod)
+            var vetorPreenchido = prod.Where(x => x != null).ToArray();
+            
+            if (vetorPreenchido.Length > 0)
             {
-                if (item != null)
+                foreach (var item in vetorPreenchido)
                 {
-                    semItens = false;
                     var propsInfo = item.GetType().GetProperties();
                     foreach (var info in propsInfo)
                     {
@@ -127,10 +128,10 @@ namespace Atividade_Final
                     Console.Write($" Lucro: {item.Lucro()}\n");
                 }
             }
-            if (semItens)
+            else
                 Console.WriteLine("nenhum item cadastrado!");
-        }
 
+        }
         static void Cadastrar(Produto[] prod)
         {
             var vazio = prod.VetorPreenchido();
@@ -149,7 +150,6 @@ namespace Atividade_Final
                 var custo = Convert.ToDouble(Console.ReadLine());
 
                 var jaExisteProduto = VerificaProdutoExistente(prod, codigo, descricao);
-
 
                 if (!jaExisteProduto)
                 {
