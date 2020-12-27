@@ -30,10 +30,13 @@ namespace Atividade_Final
          
             var vetorPreenchido = prod.Where(x => x != null).ToArray();
 
-            var prices = vetorPreenchido.Select(x => x.Preco).ToArray();
+            var precos = vetorPreenchido.Select(x => x.Preco).ToArray();
 
-            total = prices.Sum();
-            return total / prices.Length;
+            total = precos.Sum();
+
+            if (prod[0] != null)
+                return total / precos.Length;
+            return 0;
 
             
         }
